@@ -5,10 +5,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
-  const peacockOverlay = document.getElementById('peacock-intro-overlay') || document.getElementById('intro-overlay');
-  const peacockStage = document.getElementById('peacock-feather-stage') || document.getElementById('royal-envelope');
-  const peacockOpenBtn = document.getElementById('peacock-open-btn') || document.getElementById('open-prompt-btn');
-  const peacockCanvas = document.getElementById('peacock-canvas');
+  const introWrapper = document.getElementById('intro-wrapper');
+  const peacockOverlay = introWrapper;
   const audioBtn = document.getElementById('audio-btn');
   const bgAudio = document.getElementById('bg-audio');
   const canvas = document.getElementById('particles-canvas');
@@ -28,132 +26,92 @@ document.addEventListener('DOMContentLoaded', () => {
   const swipeHintBar = document.getElementById('swipe-hint-bar');
 
   let currentCardIndex = 0;
-  let currentPalaceIndex = 0;
+  let currentPalaceIndex = 2;
   let isTransitioning = false;
   let isPalaceTransitioning = false;
   let isAudioPlaying = false;
   let isIntroOpened = false;
-  let peacockAnimFrameId = null;
 
   // Set up audio source
   bgAudio.volume = 0.7;
 
   // =========================================================
-  // 1. PEACOCK FEATHER AMBIENT PARTICLES
+  // 1. CELEBRATORY CONFETTI & GOLDEN DUST BURST
   // =========================================================
-  if (peacockCanvas) {
-    const pCtx = peacockCanvas.getContext('2d');
-    let pWidth = (peacockCanvas.width = window.innerWidth);
-    let pHeight = (peacockCanvas.height = window.innerHeight);
+  function createConfettiBurst(originX, originY) {
+    const burstContainer = document.createElement('div');
+    burstContainer.style.position = 'fixed';
+    burstContainer.style.left = '0';
+    burstContainer.style.top = '0';
+    burstContainer.style.width = '100vw';
+    burstContainer.style.height = '100vh';
+    burstContainer.style.pointerEvents = 'none';
+    burstContainer.style.zIndex = '99999999';
+    document.body.appendChild(burstContainer);
 
-    window.addEventListener('resize', () => {
-      pWidth = peacockCanvas.width = window.innerWidth;
-      pHeight = peacockCanvas.height = window.innerHeight;
-    });
+    const colors = ['#dfba73', '#ffd700', '#00e5ff', '#10b981', '#f3a4b5', '#ffffff'];
+    const count = 42;
 
-    const motesColors = [
-      'rgba(223, 186, 115,', // Gold
-      'rgba(0, 229, 255,',   // Cyan / Peacock Blue
-      'rgba(16, 185, 129,',  // Emerald Green
-      'rgba(255, 235, 150,'  // Shimmering Light
-    ];
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+      const speed = Math.random() * 240 + 90;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed - 60;
+      const size = Math.random() * 8 + 4;
+      const color = colors[Math.floor(Math.random() * colors.length)];
 
-    const peacockMotes = Array.from({ length: 45 }, () => ({
-      x: Math.random() * pWidth,
-      y: Math.random() * pHeight,
-      r: Math.random() * 2.5 + 0.8,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: -(Math.random() * 0.6 + 0.25),
-      alpha: Math.random() * 0.7 + 0.2,
-      pulse: Math.random() * 0.03 + 0.015,
-      pulseStep: Math.random() * Math.PI * 2,
-      color: motesColors[Math.floor(Math.random() * motesColors.length)]
-    }));
+      p.style.position = 'absolute';
+      p.style.left = `${originX}px`;
+      p.style.top = `${originY}px`;
+      p.style.width = `${size}px`;
+      p.style.height = `${size * (Math.random() > 0.5 ? 1.6 : 1)}px`;
+      p.style.backgroundColor = color;
+      p.style.borderRadius = Math.random() > 0.4 ? '50%' : '2px';
+      p.style.boxShadow = `0 0 10px ${color}`;
+      p.style.transition = 'transform 1.15s cubic-bezier(0.12, 0.8, 0.32, 1), opacity 1.15s ease-out';
+      p.style.transform = 'translate3d(0, 0, 0) rotate(0deg) scale(1)';
+      burstContainer.appendChild(p);
 
-    function renderPeacockCanvas() {
-      pCtx.clearRect(0, 0, pWidth, pHeight);
-      peacockMotes.forEach(m => {
-        m.y += m.vy;
-        m.x += m.vx;
-        m.pulseStep += m.pulse;
-        const currentAlpha = Math.max(0.1, m.alpha + Math.sin(m.pulseStep) * 0.25);
-        if (m.y < -10) {
-          m.y = pHeight + 10;
-          m.x = Math.random() * pWidth;
-        }
-        if (m.x < -10) m.x = pWidth + 10;
-        if (m.x > pWidth + 10) m.x = -10;
-
-        pCtx.save();
-        pCtx.beginPath();
-        pCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-        pCtx.fillStyle = `${m.color} ${currentAlpha})`;
-        pCtx.shadowColor = m.color.includes('223') ? '#dfba73' : '#00e5ff';
-        pCtx.shadowBlur = 8;
-        pCtx.fill();
-        pCtx.restore();
+      requestAnimationFrame(() => {
+        const rot = Math.random() * 720 - 360;
+        p.style.transform = `translate3d(${vx}px, ${vy + 130}px, 0) rotate(${rot}deg) scale(0.2)`;
+        p.style.opacity = '0';
       });
-      peacockAnimFrameId = requestAnimationFrame(renderPeacockCanvas);
     }
-    renderPeacockCanvas();
+
+    setTimeout(() => {
+      burstContainer.remove();
+    }, 1350);
   }
 
   // =========================================================
-  // 2. PEACOCK INTRO OPEN EXPERIENCE
+  // 2. PEACOCK MORPANKH INTRO & PALACE INVITATION BRIDGE
   // =========================================================
-  function openInvitation() {
+  function enterPalaceInvitation() {
     if (isIntroOpened) return;
     isIntroOpened = true;
 
-    if (peacockStage) {
-      peacockStage.classList.add('unsealing');
-      peacockStage.classList.add('opened');
-    }
-
-    // Calculate explosion origin from feather stage center
-    const rect = peacockStage ? peacockStage.getBoundingClientRect() : null;
-    const originX = rect ? (rect.left + rect.width / 2) : (window.innerWidth / 2);
-    const originY = rect ? (rect.top + rect.height * 0.42) : (window.innerHeight / 2);
-
-    // Create dual celebratory bursts
-    createConfettiBurst(originX, originY);
+    // Celebratory sparkles
+    createConfettiBurst(window.innerWidth / 2, window.innerHeight * 0.48);
     setTimeout(() => {
-      createConfettiBurst(originX + 25, originY - 15);
-    }, 160);
+      createConfettiBurst(window.innerWidth / 2 + 30, window.innerHeight * 0.42);
+    }, 180);
 
-    // Play wedding audio
+    // Play wedding background shehnai audio
     bgAudio.play().then(() => {
       isAudioPlaying = true;
       audioBtn.classList.add('playing');
       updateAudioIcon(true);
     }).catch(err => {
-      console.log('Audio autoplay prevented or interaction needed', err);
-    });
-
-    // Fade out peacock overlay smoothly
-    setTimeout(() => {
-      if (peacockOverlay) {
-        peacockOverlay.classList.add('fade-out');
-        setTimeout(() => {
-          peacockOverlay.style.display = 'none';
-          if (peacockAnimFrameId) cancelAnimationFrame(peacockAnimFrameId);
-        }, 1300);
-      }
-    }, 650);
-  }
-
-  if (peacockStage) {
-    peacockStage.addEventListener('click', openInvitation);
-    peacockStage.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openInvitation();
-      }
+      console.log('Audio autoplay info or user interaction:', err);
     });
   }
-  if (peacockOpenBtn) {
-    peacockOpenBtn.addEventListener('click', openInvitation);
-  }
+
+  // Listen for custom event from peacock-intro.js
+  window.addEventListener('peacockIntroOpen', () => {
+    enterPalaceInvitation();
+  });
 
   // 2. AUDIO PLAY / MUTE TOGGLE
   function updateAudioIcon(playing) {
@@ -545,6 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isMouseDragging = false;
 
   window.addEventListener('touchstart', (e) => {
+    if (e.target.closest('#scratch-canvas, #scratch-hint-pill')) return;
     touchStartY = e.touches[0].clientY;
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
@@ -556,7 +515,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const diffY = touchStartY - touchEndY;
     const diffX = touchStartX - touchEndX;
 
-    // Horizontal swipe: switch palace!
+    // Horizontal swipe: switch palace (Commented out for Single Palace mode)
+    /*
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
       if (diffX > 0) {
         switchPalace(1); // Swipe left -> Next Palace
@@ -564,8 +524,10 @@ document.addEventListener('DOMContentLoaded', () => {
         switchPalace(-1); // Swipe right -> Previous Palace
       }
     }
+    else
+    */
     // Vertical swipe: switch invitation card!
-    else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 35) {
+    if (Math.abs(diffY) > 35) {
       // Check if user is scrolling inside a scrollable container
       const scrollableEl = e.target.closest('.events-list-scroll, .story-scroll-container');
       if (scrollableEl && scrollableEl.scrollHeight > scrollableEl.clientHeight) {
@@ -585,12 +547,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // Mouse Drag Support for Desktop (Swipe sideways or vertically)
+  // Mouse Drag Support for Desktop (Vertical cards)
   window.addEventListener('mousedown', (e) => {
     if (peacockOverlay && peacockOverlay.style.display !== 'none') return;
     if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input') || 
         e.target.closest('select') || e.target.closest('textarea') || e.target.closest('.lang-dropdown') || 
-        e.target.closest('.nav-indicator') || e.target.closest('.page-dot')) return;
+        e.target.closest('.nav-indicator') || e.target.closest('.page-dot') || e.target.closest('#scratch-canvas') || e.target.closest('#scratch-hint-pill')) return;
     
     touchStartX = e.clientX;
     touchStartY = e.clientY;
@@ -603,10 +565,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const diffX = touchStartX - e.clientX;
     const diffY = touchStartY - e.clientY;
 
+    /* Single Palace mode: horizontal drag commented out
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
       if (diffX > 0) switchPalace(1);
       else switchPalace(-1);
-    } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 40) {
+    } else
+    */
+    if (Math.abs(diffY) > 40) {
       const scrollableEl = e.target.closest('.events-list-scroll, .story-scroll-container');
       if (scrollableEl && scrollableEl.scrollHeight > scrollableEl.clientHeight) {
         const atTop = scrollableEl.scrollTop <= 4 && diffY < 0;
@@ -623,11 +588,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Keyboard navigation
   window.addEventListener('keydown', (e) => {
     if (peacockOverlay && peacockOverlay.style.display !== 'none') return;
+    /* Single Palace mode: Left/Right arrow keys commented out
     if (e.key === 'ArrowRight') {
       switchPalace(1);
     } else if (e.key === 'ArrowLeft') {
       switchPalace(-1);
-    } else if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+    } else
+    */
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
       goToCard(currentCardIndex + 1);
     } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
       goToCard(currentCardIndex - 1);
@@ -643,8 +611,8 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => goToCard(0));
   });
 
-  // 6. LIVE COUNTDOWN TIMER
-  const targetDate = new Date('2027-02-13T19:30:00+05:30').getTime();
+  // 6. LIVE COUNTDOWN TIMER (29th January 2027)
+  const targetDate = new Date('2027-01-29T16:30:00+05:30').getTime();
 
   function updateCountdown() {
     const now = new Date().getTime();
@@ -679,75 +647,244 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // 7. PHOTO GALLERY CAROUSEL
-  const galleryImages = [
-    'assets/photo_1.webp',
-    'assets/photo_2.webp',
-    'assets/photo_3.webp',
-    'assets/photo_4.webp',
-    'assets/photo_5.webp',
-    'assets/photo_6.webp',
-    'assets/couple.webp'
-  ];
+  // =========================================================
+  // 7. COUNTDOWN SCRATCH & REVEAL (ROYAL METALLIC FOIL)
+  // =========================================================
+  const scratchArea = document.getElementById('countdown-scratch-area');
+  const scratchCanvas = document.getElementById('scratch-canvas');
 
-  let currentGalleryIndex = 0;
-  const galleryMainImg = document.getElementById('gallery-main-img');
-  const galleryCounter = document.getElementById('gallery-counter');
-  const galleryPrevBtn = document.getElementById('gallery-prev');
-  const galleryNextBtn = document.getElementById('gallery-next');
-  const galleryThumbs = document.querySelectorAll('.gallery-thumb-item');
+  if (scratchCanvas && scratchArea) {
+    const sCtx = scratchCanvas.getContext('2d', { willReadFrequently: true });
+    let isScratching = false;
+    let isRevealed = false;
+    let scratchPointsCount = 0;
 
-  function setGalleryImage(idx) {
-    if (idx < 0) idx = galleryImages.length - 1;
-    if (idx >= galleryImages.length) idx = 0;
-    currentGalleryIndex = idx;
+    function initScratchFoil() {
+      if (isRevealed) return;
+      const grid = document.getElementById('countdown-grid');
+      const rect = grid ? grid.getBoundingClientRect() : scratchArea.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      
+      const width = rect.width || scratchArea.offsetWidth || 280;
+      const height = rect.height || scratchArea.offsetHeight || 66;
 
-    galleryMainImg.style.opacity = '0';
-    setTimeout(() => {
-      galleryMainImg.src = galleryImages[currentGalleryIndex];
-      galleryMainImg.style.opacity = '1';
-    }, 150);
+      scratchCanvas.width = width * dpr;
+      scratchCanvas.height = height * dpr;
+      scratchCanvas.style.width = `${width}px`;
+      scratchCanvas.style.height = `${height}px`;
 
-    if (galleryCounter) {
-      galleryCounter.textContent = `${currentGalleryIndex + 1} / ${galleryImages.length}`;
+      sCtx.setTransform(1, 0, 0, 1, 0, 0);
+      sCtx.scale(dpr, dpr);
+
+      // 1. Draw rich royal gold & rose metallic gradient
+      const grad = sCtx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, '#f5deb3');
+      grad.addColorStop(0.25, '#d4af37');
+      grad.addColorStop(0.5, '#faebd7');
+      grad.addColorStop(0.75, '#c59b27');
+      grad.addColorStop(1, '#eec082');
+
+      sCtx.fillStyle = grad;
+      sCtx.beginPath();
+      if (sCtx.roundRect) {
+        sCtx.roundRect(0, 0, width, height, 8);
+      } else {
+        sCtx.rect(0, 0, width, height);
+      }
+      sCtx.fill();
+
+      // 2. Add soft golden glitter stippling
+      sCtx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      for (let i = 0; i < 70; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        const r = Math.random() * 1.5 + 0.5;
+        sCtx.beginPath();
+        sCtx.arc(x, y, r, 0, Math.PI * 2);
+        sCtx.fill();
+      }
+
+      // 3. Delicate gold border
+      sCtx.strokeStyle = 'rgba(197, 155, 39, 0.85)';
+      sCtx.lineWidth = 1.5;
+      sCtx.beginPath();
+      if (sCtx.roundRect) {
+        sCtx.roundRect(2, 2, width - 4, height - 4, 7);
+      } else {
+        sCtx.rect(2, 2, width - 4, height - 4);
+      }
+      sCtx.stroke();
+
+      // 4. Elegant text directly on the canvas foil
+      sCtx.fillStyle = '#6b2031';
+      sCtx.font = 'bold 12px "Cinzel", "Cormorant Garamond", serif';
+      sCtx.textAlign = 'center';
+      sCtx.textBaseline = 'middle';
+      sCtx.fillText('✦  SCRATCH TO REVEAL  ✦', width / 2, height / 2);
     }
 
-    galleryThumbs.forEach((thumb, i) => {
-      thumb.classList.toggle('active', i === currentGalleryIndex);
+    setTimeout(initScratchFoil, 100);
+    setTimeout(initScratchFoil, 350);
+    window.addEventListener('resize', () => {
+      if (!isRevealed) initScratchFoil();
+    });
+
+    function scratch(e) {
+      if (!isScratching || isRevealed) return;
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      // Soft feathered brush
+      sCtx.globalCompositeOperation = 'destination-out';
+      const brushRadius = 26;
+      const radialGrad = sCtx.createRadialGradient(x, y, 0, x, y, brushRadius);
+      radialGrad.addColorStop(0, 'rgba(0, 0, 0, 1)');
+      radialGrad.addColorStop(0.75, 'rgba(0, 0, 0, 0.85)');
+      radialGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+      sCtx.fillStyle = radialGrad;
+      sCtx.beginPath();
+      sCtx.arc(x, y, brushRadius, 0, Math.PI * 2);
+      sCtx.fill();
+
+      scratchPointsCount++;
+      if (scratchPointsCount % 8 === 0) {
+        checkScratchPercentage();
+      }
+    }
+
+    function checkScratchPercentage() {
+      if (isRevealed) return;
+      const w = scratchCanvas.width;
+      const h = scratchCanvas.height;
+      if (w === 0 || h === 0) return;
+
+      try {
+        const imgData = sCtx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        let transparentPixels = 0;
+        const totalSampled = data.length / 16;
+
+        for (let i = 3; i < data.length; i += 16) {
+          if (data[i] < 30) transparentPixels++;
+        }
+
+        const percentage = (transparentPixels / totalSampled) * 100;
+        if (percentage > 25) {
+          revealCountdown();
+        }
+      } catch (err) {
+        if (scratchPointsCount > 25) {
+          revealCountdown();
+        }
+      }
+    }
+
+    function revealCountdown() {
+      if (isRevealed) return;
+      isRevealed = true;
+      scratchArea.classList.add('revealed');
+
+      const rect = scratchArea.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      createConfettiBurst(centerX, centerY);
+
+      setTimeout(() => {
+        scratchCanvas.style.display = 'none';
+      }, 600);
+    }
+
+    // Touch & Mouse Listeners
+    scratchCanvas.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      isScratching = true;
+      scratch(e);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isScratching) {
+        scratch(e);
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isScratching) {
+        isScratching = false;
+        checkScratchPercentage();
+      }
+    });
+
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      e.stopPropagation();
+      isScratching = true;
+      scratch(e);
+    }, { passive: false });
+
+    scratchCanvas.addEventListener('touchmove', (e) => {
+      if (isScratching) {
+        e.preventDefault();
+        e.stopPropagation();
+        scratch(e);
+      }
+    }, { passive: false });
+
+    scratchCanvas.addEventListener('touchend', (e) => {
+      e.stopPropagation();
+      isScratching = false;
+      checkScratchPercentage();
+    });
+
+    // Tap to reveal
+    scratchCanvas.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (scratchPointsCount > 3) {
+        revealCountdown();
+      }
+    });
+
+    scratchCanvas.addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      revealCountdown();
     });
   }
 
-  if (galleryPrevBtn) {
-    galleryPrevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setGalleryImage(currentGalleryIndex - 1);
-    });
-  }
-
-  if (galleryNextBtn) {
-    galleryNextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setGalleryImage(currentGalleryIndex + 1);
-    });
-  }
-
-  galleryThumbs.forEach((thumb, idx) => {
-    thumb.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setGalleryImage(idx);
-    });
-  });
-
-  // 8. RSVP SUBMIT LOGIC
+  // =========================================================
+  // 8. RSVP SUBMIT LOGIC (DIRECT TO WHATSAPP 6289848189)
+  // =========================================================
   const rsvpForm = document.getElementById('wedding-rsvp-form');
   const rsvpSuccess = document.getElementById('rsvp-success-msg');
 
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const guestName = document.getElementById('guest-name')?.value || '';
+      const guestCount = document.getElementById('guest-count')?.value || '1';
+      const attendance = document.querySelector('input[name="attendance"]:checked')?.value || 'attending';
+      const guestMsg = document.getElementById('guest-msg')?.value || '';
+
+      const attendanceText = attendance === 'attending' ? 'Joyfully Attending 🎉' : 'Regretfully Declines 🙏';
+      let text = `*Wedding RSVP for Unnati & Nisarg*\n` +
+                 `👤 *Name:* ${guestName}\n` +
+                 `👥 *Guests:* ${guestCount}\n` +
+                 `✨ *Status:* ${attendanceText}\n`;
+      if (guestMsg.trim()) {
+        text += `💌 *Message:* ${guestMsg}\n`;
+      }
+
       createConfettiBurst(window.innerWidth / 2, window.innerHeight / 2);
       rsvpForm.style.display = 'none';
-      rsvpSuccess.style.display = 'block';
+      if (rsvpSuccess) rsvpSuccess.style.display = 'block';
+
+      // Redirect directly to WhatsApp with pre-filled details
+      const waUrl = `https://wa.me/916289848189?text=${encodeURIComponent(text)}`;
+      setTimeout(() => {
+        window.open(waUrl, '_blank');
+      }, 600);
     });
   }
 

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ganeshaGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D77F"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9E7819"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#c59b27" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softGlow)" fill="none" stroke="url(#ganeshaGold)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mukut / Crown -->
+    <path d="M 45 12 L 50 4 L 55 12 Z" fill="url(#ganeshaGold)" stroke-width="1.2"/>
+    <path d="M 42 16 Q 50 13 58 16" stroke-width="2"/>
+    <path d="M 40 21 Q 50 17 60 21" stroke-width="2.2"/>
+    <circle cx="50" cy="10" r="1.5" fill="url(#ganeshaGold)"/>
+
+    <!-- Auspicious Tilak / Trishul mark on forehead -->
+    <path d="M 50 22 L 50 34" stroke-width="2.4"/>
+    <path d="M 46 25 Q 48 32 50 34 Q 52 32 54 25" stroke-width="1.8"/>
+    <circle cx="50" cy="38" r="1.8" fill="url(#ganeshaGold)"/>
+
+    <!-- Right Ear & Head -->
+    <path d="M 39 23 Q 23 24 23 38 Q 23 48 35 48" stroke-width="2.5"/>
+    <path d="M 35 48 Q 39 49 42 46" stroke-width="2"/>
+
+    <!-- Left Ear & Head -->
+    <path d="M 61 23 Q 77 24 77 38 Q 77 48 65 48" stroke-width="2.5"/>
+    <path d="M 65 48 Q 61 49 58 46" stroke-width="2"/>
+
+    <!-- Eyes (closed in meditation/blessing) -->
+    <path d="M 37 36 Q 41 39 44 36" stroke-width="1.6"/>
+    <path d="M 56 36 Q 59 39 63 36" stroke-width="1.6"/>
+
+    <!-- Tusk (Ekdanta) -->
+    <path d="M 43 47 L 40 54 L 44 53" fill="url(#ganeshaGold)" stroke-width="1.2"/>
+
+    <!-- Sacred Trunk with graceful curve and Modak -->
+    <path d="M 48 41 Q 51 55 50 67 Q 49 76 56 81 Q 63 85 70 80 Q 73 76 71 71 Q 68 67 63 70 Q 60 74 65 77" stroke-width="3"/>
+    
+    <!-- Ladoo / Modak in Trunk -->
+    <circle cx="68" cy="74" r="3.2" fill="url(#ganeshaGold)" stroke-width="1"/>
+
+    <!-- Small decorative dots -->
+    <circle cx="50" cy="51" r="1" fill="url(#ganeshaGold)"/>
+    <circle cx="49" cy="58" r="1.1" fill="url(#ganeshaGold)"/>
+    <circle cx="49" cy="65" r="1.2" fill="url(#ganeshaGold)"/>
+  </g>
+</svg>
