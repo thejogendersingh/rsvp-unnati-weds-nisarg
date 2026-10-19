@@ -1475,7 +1475,8 @@ html, body {
   font-weight: 600;
   color: #2b1d14;
   line-height: 1.15;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .weds-connector {
