@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Rozha+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Rozha+One&family=Yatra+One&display=swap');
 
 :root {
   --primary-gold: #c59b27;
@@ -18,7 +18,7 @@
   --font-script: 'Great Vibes', cursive;
   --font-display: 'Cinzel', serif;
   --font-sans: 'Montserrat', sans-serif;
-  --font-devanagari: 'Rozha One', 'Cormorant Garamond', serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Yatra One', 'Rozha One', serif;
 }
 
 * {
@@ -122,9 +122,11 @@ html, body {
   font-family: var(--font-devanagari);
   font-size: clamp(14px, 3.8vw, 17px);
   color: #dfba73;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.01em;
+  word-spacing: 4px;
+  font-weight: 600;
   margin-bottom: 6px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 16px rgba(223, 186, 115, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 16px rgba(223, 186, 115, 0.6);
   animation: fadeInDown 1.2s ease-out;
 }
 
@@ -196,11 +198,12 @@ html, body {
 
 .intro-shloka {
   font-family: var(--font-devanagari);
-  font-size: clamp(13px, 3.5vw, 16px);
+  font-size: clamp(14px, 3.8vw, 17px);
   color: #dfba73;
-  letter-spacing: 0.16em;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(223, 186, 115, 0.55);
-  font-weight: 500;
+  letter-spacing: 0.01em;
+  word-spacing: 4px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 0 16px rgba(223, 186, 115, 0.6);
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -1358,13 +1361,17 @@ html, body {
 
 /* Cards with less content: center vertically inside the arch opening */
 .invitation-card.card-centered,
-.invitation-card[data-card="0"],
 .invitation-card[data-card="1"],
 .invitation-card[data-card="2"],
 .invitation-card[data-card="4"],
 .invitation-card[data-card="6"] {
   justify-content: center;
   padding: clamp(18px, 5.5cqw, 28px) clamp(8px, 2.6cqw, 14px) clamp(20px, 6cqw, 32px);
+}
+
+.invitation-card[data-card="0"] {
+  justify-content: center;
+  padding: clamp(12px, 3.8cqw, 22px) clamp(8px, 2.6cqw, 14px) clamp(16px, 4.8cqw, 26px);
 }
 
 .invitation-card::-webkit-scrollbar {
@@ -1447,43 +1454,58 @@ html, body {
 
 .hero-ganesh-shloka {
   font-family: var(--font-devanagari);
-  font-size: clamp(13px, 3.8cqw, 15px);
-  color: var(--primary-gold);
-  letter-spacing: 0.16em;
-  text-shadow: 0 1px 4px rgba(223, 186, 115, 0.35);
-  font-weight: 500;
+  font-size: clamp(13.5px, 4cqw, 16.5px);
+  color: #b8860b;
+  letter-spacing: 0.01em;
+  word-spacing: 4px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9), 0 1px 4px rgba(197, 155, 39, 0.35);
+  font-weight: 700;
   margin-bottom: 2px;
 }
 
-.hero-tagline {
-  font-family: var(--font-serif);
-  font-size: clamp(13px, 4.4cqw, 17px);
-  font-style: italic;
-  color: #634b3f;
-  line-height: 1.25;
-  max-width: 85%;
-  margin-bottom: 6px;
-}
-
 .names-block {
-  margin: 6px 0;
+  margin: 6px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
-.groom-name, .bride-name {
-  font-family: var(--font-serif);
-  font-size: clamp(20px, 7.2cqw, 28px);
-  font-weight: 600;
-  color: #2b1d14;
+.person-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.couple-name, .groom-name, .bride-name {
+  font-family: var(--font-display);
+  font-size: clamp(16.5px, 5.2cqw, 23px);
+  font-weight: 700;
+  color: #2b1419;
   line-height: 1.15;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(123, 45, 62, 0.15);
+}
+
+.couple-family-info {
+  font-family: var(--font-serif);
+  font-size: clamp(10px, 3cqw, 12.5px);
+  font-style: italic;
+  font-weight: 500;
+  color: #7b2d3e;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
 }
 
 .weds-connector {
   font-family: var(--font-script);
-  font-size: clamp(18px, 6.2cqw, 24px);
+  font-size: clamp(20px, 6.2cqw, 26px);
   color: var(--crimson-accent);
-  margin: -2px 0;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .date-text {

@@ -150,13 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 3. LANGUAGE SWITCHER
-  langTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    langDropdown.classList.toggle('open');
-  });
+  if (langTrigger && langDropdown) {
+    langTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langDropdown.classList.toggle('open');
+    });
+  }
 
   document.addEventListener('click', () => {
-    langDropdown.classList.remove('open');
+    if (langDropdown) {
+      langDropdown.classList.remove('open');
+    }
   });
 
   const translations = {
