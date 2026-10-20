@@ -17,62 +17,49 @@
   </audio>
 
   <!-- ==============================================================
-       ROYAL MORPANKH (PEACOCK FEATHER) INTRO ANIMATION
-       From: thejogendersingh/morpankh-intro-invcraftmedia
+       ROYAL WEDDING VIDEO INTRO EXPERIENCE
+       Video: assets/intro-final.MP4
        ============================================================== -->
   <div id="intro-wrapper">
-    <!-- Dark Emerald Textured Backdrop -->
-    <div id="intro-backdrop" class="intro-backdrop-layer">
-      <div class="intro-radial-vignette"></div>
+    <!-- Video Container (Directly visible, no black screen) -->
+    <div class="intro-video-container" id="intro-video-container">
+      <video
+        id="intro-video"
+        class="intro-video-element"
+        playsinline
+        webkit-playsinline
+        x5-playsinline
+        preload="auto"
+        poster="assets/intro-frame.png"
+        src="assets/intro-final.MP4"
+      ></video>
     </div>
 
-    <!-- Interactive Intro Stage -->
-    <div id="intro-stage" class="intro-stage">
-      
-      <!-- Audio Element for Realistic Feather Rustle Effect -->
-      <audio id="rustle-audio" src="animations/peacock-feather/feather-rustle.mp3" preload="auto" aria-hidden="true"></audio>
-
-      <!-- Auspicious Top Blessing with Theme-Matching Transparent Ganesha -->
-      <div class="intro-ganesh-block">
-        <img src="assets/ganesha.svg" alt="Lord Ganesha" class="intro-ganesh-img" />
-        <div class="intro-shloka">॥ श्री गणेशाय नमः ॥</div>
-      </div>
-
-      <!-- Center Tap Prompt with Hand Ripple & Gesture -->
-      <div id="tap-prompt" class="tap-prompt-container">
-        <div class="tap-ripple-wrapper">
-          <div class="ripple-circle"></div>
-          <div class="ripple-circle delayed"></div>
-          <div class="hand-icon-wrapper">
-            <svg class="hand-svg" viewBox="0 0 32 32" aria-hidden="true">
-              <path d="M15.5 2C14.12 2 13 3.12 13 4.5V14.65L11.53 13.18C10.55 12.2 8.95 12.2 7.97 13.18C7.45 13.7 7.21 14.41 7.29 15.11C7.38 15.82 7.78 16.44 8.38 16.85L14.7 25.13C16.03 26.88 18.11 27.91 20.33 27.91H23C26.31 27.91 29 25.22 29 21.91V14.5C29 13.12 27.88 12 26.5 12C26.17 12 25.86 12.06 25.57 12.18C25.19 11.18 24.23 10.5 23.1 10.5C22.77 10.5 22.45 10.56 22.16 10.68C21.78 9.68 20.82 9 19.69 9C19.46 9 19.23 9.03 19.01 9.1V4.5C19.01 3.12 17.89 2 16.51 2H15.5Z"/>
-            </svg>
-          </div>
-        </div>
-        <div class="tap-label-group">
-          <span class="tap-label">Click the peacock to open invitation</span>
-          <div class="tap-divider-line"></div>
+    <!-- Center Tap / Touch Prompt with Hand Ripple & Luxury Glassmorphic Badge -->
+    <div id="tap-prompt" class="tap-prompt-container">
+      <div class="tap-ripple-wrapper">
+        <div class="ripple-circle"></div>
+        <div class="ripple-circle delayed"></div>
+        <div class="hand-icon-wrapper">
+          <svg class="hand-svg" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M15.5 2C14.12 2 13 3.12 13 4.5V14.65L11.53 13.18C10.55 12.2 8.95 12.2 7.97 13.18C7.45 13.7 7.21 14.41 7.29 15.11C7.38 15.82 7.78 16.44 8.38 16.85L14.7 25.13C16.03 26.88 18.11 27.91 20.33 27.91H23C26.31 27.91 29 25.22 29 21.91V14.5C29 13.12 27.88 12 26.5 12C26.17 12 25.86 12.06 25.57 12.18C25.19 11.18 24.23 10.5 23.1 10.5C22.77 10.5 22.45 10.56 22.16 10.68C21.78 9.68 20.82 9 19.69 9C19.46 9 19.23 9.03 19.01 9.1V4.5C19.01 3.12 17.89 2 16.51 2H15.5Z"/>
+          </svg>
         </div>
       </div>
-
-      <!-- Desktop Feathers Cluster (4 tiers, 47 feathers) -->
-      <div id="peacock-feathers-cluster" class="peacock-feathers-cluster"></div>
-
-      <!-- Mobile Canvas (High-Performance 2D Engine) -->
-      <canvas id="peacock-canvas"></canvas>
-
-      <!-- Golden Floating Sparkles Cluster -->
-      <div id="peacock-sparkles-cluster" class="peacock-sparkles-container"></div>
-
-      <!-- Royal Peacock Body at Bottom -->
-      <div id="peacock-body-anchor" class="peacock-body-anchor">
-        <div class="peacock-halo-glow"></div>
-        <div id="peacock-body-elem" class="peacock-body-elem peacock-body-resting">
-          <img src="animations/peacock-feather/peacock-body.webp" alt="Royal Peacock" class="peacock-body-img" draggable="false" />
-        </div>
+      <div class="tap-label-group">
+        <span class="tap-label">Touch to open invitation</span>
+        <div class="tap-divider-line"></div>
       </div>
-
     </div>
+
+    <!-- Pink Glassmorphism Skip Button -->
+    <button id="intro-skip-btn" class="intro-skip-btn" aria-label="Skip Intro" title="Skip Intro">
+      <span>Skip</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+        <line x1="19" y1="5" x2="19" y2="19"></line>
+      </svg>
+    </button>
   </div>
 
   <!-- =========================================
@@ -448,7 +435,7 @@
             </div>
           </section>
 
-          <!-- ================= CARD 6: RSVP ================= -->
+          <!-- ================= CARD 6: RSVP (COMMENTED OUT) =================
           <section class="invitation-card next card-rsvp" data-card="5">
             <h3 class="card-script-title" data-i18n="rsvpTitle">RSVP</h3>
             <p class="card-subtitle" data-i18n="rsvpSubtitle">Please let us know if you can make it</p>
@@ -487,7 +474,7 @@
               </div>
 
               <label class="rsvp-terms-label">
-                <input type="checkbox" required checked />
+                <input type="checkbox" checked />
                 <span>I agree to the <span class="rsvp-terms-link">RSVP terms & conditions</span></span>
               </label>
 
@@ -511,6 +498,7 @@
               </svg>
             </div>
           </section>
+          ================= END OF CARD 6: RSVP ================= -->
 
           <!-- ================= CARD 7: THANK YOU ================= -->
           <section class="invitation-card next card-centered card-thankyou" data-card="6">
@@ -576,7 +564,7 @@
 
 </div><!-- End of .app-container -->
 
-  <script src="peacock-intro.js"></script>
+  <script src="video-intro.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

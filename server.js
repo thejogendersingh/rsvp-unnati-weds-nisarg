@@ -16,6 +16,7 @@ const MIME_TYPES = {
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.mp3': 'audio/mpeg',
+  '.mp4': 'video/mp4',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
   '.woff': 'font/woff',
@@ -48,8 +49,8 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // Support range requests for audio files (.mp3)
-    if (ext === '.mp3') {
+    // Support range requests for media files (.mp3, .mp4)
+    if (ext === '.mp3' || ext === '.mp4') {
       const range = req.headers.range;
       const totalSize = stats.size;
 

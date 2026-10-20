@@ -890,11 +890,11 @@ document.addEventListener('DOMContentLoaded', () => {
       rsvpForm.style.display = 'none';
       if (rsvpSuccess) rsvpSuccess.style.display = 'block';
 
-      // Redirect directly to WhatsApp with pre-filled details
-      const waUrl = `https://wa.me/916289848189?text=${encodeURIComponent(text)}`;
-      setTimeout(() => {
-        window.open(waUrl, '_blank');
-      }, 600);
+      // Redirect directly to WhatsApp with pre-filled details (Commented)
+      // const waUrl = `https://wa.me/916289848189?text=${encodeURIComponent(text)}`;
+      // setTimeout(() => {
+      //   window.open(waUrl, '_blank');
+      // }, 600);
     });
   }
 
