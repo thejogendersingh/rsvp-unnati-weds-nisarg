@@ -29,10 +29,13 @@
     init() {
       if (!this.wrapper || !this.video) return;
 
-      // Ensure playsinline and preloading
+      // Ensure playsinline, preloading and 100% MUTED intro video
       this.video.playsInline = true;
+      this.video.muted = true;
+      this.video.volume = 0;
       this.video.setAttribute('playsinline', '');
       this.video.setAttribute('webkit-playsinline', '');
+      this.video.setAttribute('muted', '');
 
       // Bind interaction listeners
       const triggerStart = (e) => {
@@ -41,6 +44,13 @@
           if (e && e.type === 'touchstart') {
             e.preventDefault();
           }
+
+          // Pre-unlock main background audio during user gesture context
+          const bgAudio = document.getElementById('bg-audio');
+          if (bgAudio) {
+            bgAudio.load();
+          }
+
           this.startPlayback();
         }
       };
@@ -87,16 +97,15 @@
     startPlayback() {
       this.isPlaying = true;
 
-      // Softly hide tap prompt and Ganesha blessing
+      // Softly hide tap prompt
       if (this.tapPrompt) {
         this.tapPrompt.classList.add('hide-prompt');
-      }
-      if (this.ganeshBlock) {
-        this.ganeshBlock.classList.add('hide-ganesh');
       }
 
       // Show video element with smooth fade-in
       if (this.video) {
+        this.video.muted = true;
+        this.video.volume = 0;
         this.video.classList.add('playing');
         
         // Show pink glassmorphism skip button gently after 500ms
@@ -106,17 +115,9 @@
           }
         }, 500);
 
-        const playPromise = this.video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((err) => {
-            console.warn('Video play prevented with audio, attempting muted:', err);
-            this.video.muted = true;
-            this.video.play().catch((e) => {
-              console.error('Video could not play:', e);
-              this.finishIntro(true);
-            });
-          });
-        }
+        this.video.play().catch((err) => {
+          console.warn('Video playback:', err);
+        });
       }
     }
 
@@ -124,11 +125,13 @@
       if (this.isFadingOut || this.hasEnded) return;
       this.isFadingOut = true;
 
-      // Smoothly fade out video volume as it ends
-      this.fadeAudioOut();
-
-      // Trigger main palace invitation animations & background music in advance
+      // Trigger main palace invitation animations & play main background shehnai audio
       window.dispatchEvent(new CustomEvent('peacockIntroOpen'));
+
+      const bgAudio = document.getElementById('bg-audio');
+      if (bgAudio) {
+        bgAudio.play().catch(e => console.log('bgAudio play:', e));
+      }
 
       // Apply ultra-smooth slow opacity transition to the wrapper
       if (this.wrapper) {
