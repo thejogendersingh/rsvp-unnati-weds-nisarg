@@ -282,13 +282,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 4. SIDE PAGINATION SETUP
-  cards.forEach((_, idx) => {
-    const dot = document.createElement('div');
-    dot.className = `page-dot ${idx === 0 ? 'active' : ''}`;
-    dot.setAttribute('title', `Slide ${idx + 1}`);
-    dot.addEventListener('click', () => goToCard(idx));
-    paginationContainer.appendChild(dot);
-  });
+  if (paginationContainer) {
+    if (cards.length <= 1) {
+      paginationContainer.style.display = 'none';
+    } else {
+      cards.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = `page-dot ${idx === 0 ? 'active' : ''}`;
+        dot.setAttribute('title', `Slide ${idx + 1}`);
+        dot.addEventListener('click', () => goToCard(idx));
+        paginationContainer.appendChild(dot);
+      });
+    }
+  }
 
   const dots = document.querySelectorAll('.page-dot');
 
