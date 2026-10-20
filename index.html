@@ -20,8 +20,8 @@
        ROYAL WEDDING VIDEO INTRO EXPERIENCE
        Video: assets/intro-final.MP4
        ============================================================== -->
+  <!-- INTRO WRAPPER (COMMENTED OUT)
   <div id="intro-wrapper">
-    <!-- Video Container (Directly visible, no black screen) -->
     <div class="intro-video-container" id="intro-video-container">
       <video
         id="intro-video"
@@ -36,7 +36,6 @@
       ></video>
     </div>
 
-    <!-- Center Tap / Touch Prompt with Hand Ripple & Luxury Glassmorphic Badge -->
     <div id="tap-prompt" class="tap-prompt-container">
       <div class="tap-ripple-wrapper">
         <div class="ripple-circle"></div>
@@ -53,7 +52,6 @@
       </div>
     </div>
 
-    <!-- Pink Glassmorphism Skip Button -->
     <button id="intro-skip-btn" class="intro-skip-btn" aria-label="Skip Intro" title="Skip Intro">
       <span>Skip</span>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -62,6 +60,7 @@
       </svg>
     </button>
   </div>
+  -->
 
   <!-- =========================================
        MAIN APPLICATION / PALACE EXPERIENCE
@@ -79,9 +78,8 @@
     <!-- Rose Petals & Golden Sparkles Canvas -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- Floating Top Bar Controls -->
+    <!-- Floating Top Bar Controls (COMMENTED OUT)
     <div class="top-controls">
-      <!-- Music Player Button (Top Left) -->
       <button class="audio-btn" id="audio-btn" aria-label="Play music" title="Wedding Music">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -90,7 +88,6 @@
         </svg>
       </button>
 
-      <!-- Language Selector Dropdown (Top Right) -->
       <div class="lang-dropdown" id="lang-dropdown">
         <button class="lang-trigger" id="lang-trigger" aria-haspopup="listbox" aria-expanded="false">
           <span id="lang-current">English</span>
@@ -114,6 +111,7 @@
         </div>
       </div>
     </div>
+    -->
 
     <!-- Central Mahal Viewport -->
     <div class="card-viewport" id="card-viewport">
@@ -134,9 +132,9 @@
         <div class="cards-slider">
           <div class="cards-track" id="cards-track">
 
-          <!-- ================= CARD 1: COVER (HERO) ================= -->
-          <section class="invitation-card active" data-card="0">
-            <!-- Auspicious Shree Ganeshay Namah & Royal Ganesha Blessing -->
+          <!-- ================= CARDS 1-5 (COMMENTED OUT) =================
+          /* CARD 1: COVER (HERO) */
+          <section class="invitation-card" data-card="0">
             <div class="hero-ganesh-block">
               <img src="assets/ganesha.svg" alt="Lord Ganesha" class="hero-ganesh-img" />
               <div class="hero-ganesh-shloka">॥ श्री गणेशाय नमः ॥</div>
@@ -206,7 +204,7 @@
             </div>
           </section>
 
-          <!-- ================= CARD 2: DATE & TIME (CALENDAR) ================= -->
+          /* CARD 2: DATE & TIME (CALENDAR) */
           <section class="invitation-card next card-centered card-calendar" data-card="1">
             <h3 class="card-script-title" data-i18n="dateTitle">Date & Time</h3>
             <p class="card-subtitle" data-i18n="dateSubtitle">When we will tie the knot</p>
@@ -222,7 +220,6 @@
                 <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
               </div>
               <div class="calendar-grid">
-                <!-- Jan 2027 starts on Friday (5 empty slots for Sun, Mon, Tue, Wed, Thu) -->
                 <div class="cal-day empty"></div>
                 <div class="cal-day empty"></div>
                 <div class="cal-day empty"></div>
@@ -277,7 +274,7 @@
             </div>
           </section>
 
-          <!-- ================= CARD 3: THE COUNTDOWN (SCRATCH & REVEAL) ================= -->
+          /* CARD 3: THE COUNTDOWN (SCRATCH & REVEAL) */
           <section class="invitation-card next card-centered card-countdown" data-card="2">
             <h3 class="card-script-title" data-i18n="countdownTitle">The Countdown</h3>
             
@@ -287,9 +284,7 @@
               <span class="divider-line"></span>
             </div>
 
-            <!-- Interactive Scratch & Reveal Area -->
             <div class="countdown-scratch-area" id="countdown-scratch-area">
-              <!-- Live Numbers (Hidden underneath until scratched/tapped) -->
               <div class="countdown-grid" id="countdown-grid">
                 <div class="countdown-box">
                   <span class="countdown-num" id="days-count">00</span>
@@ -309,7 +304,6 @@
                 </div>
               </div>
 
-              <!-- Royal Metallic Scratch Canvas -->
               <canvas class="scratch-canvas" id="scratch-canvas"></canvas>
             </div>
 
@@ -328,13 +322,12 @@
             </div>
           </section>
 
-          <!-- ================= CARD 4: WEDDING EVENTS ================= -->
+          /* CARD 4: WEDDING EVENTS */
           <section class="invitation-card next card-events" data-card="3">
             <h3 class="card-script-title" data-i18n="eventsTitle">Wedding Events</h3>
             <p class="card-subtitle" data-i18n="eventsSubtitle">Join us for the celebrations</p>
 
             <div class="events-list-scroll">
-              <!-- Event 1: Welcome Lunch -->
               <div class="event-item-card">
                 <div class="single-event-icon-jharokha">
                   <img src="assets/events/ring-ceremony.webp" alt="Welcome Lunch" class="event-icon-img" />
@@ -350,7 +343,6 @@
                 </div>
               </div>
 
-              <!-- Event 2: Ring Ceremony & Sangeet -->
               <div class="event-item-card">
                 <div class="single-event-icon-jharokha">
                   <img src="assets/events/sangeet.webp" alt="Ring Ceremony & Sangeet" class="event-icon-img" />
@@ -366,7 +358,6 @@
                 </div>
               </div>
 
-              <!-- Event 3: Haldi Ceremony -->
               <div class="event-item-card">
                 <div class="single-event-icon-jharokha">
                   <img src="assets/events/haldi.webp" alt="Haldi Ceremony" class="event-icon-img" />
@@ -382,7 +373,6 @@
                 </div>
               </div>
 
-              <!-- Event 4: Main Wedding (Barat, Hast Melap, Vidaai) -->
               <div class="event-item-card main-event">
                 <div class="single-event-icon-jharokha">
                   <img src="assets/events/wedding-ceremony.webp" alt="Wedding Ceremony" class="event-icon-img" />
@@ -406,7 +396,7 @@
             </div>
           </section>
 
-          <!-- ================= CARD 5: OUR FAMILIES ================= -->
+          /* CARD 5: OUR FAMILIES */
           <section class="invitation-card next card-centered card-families" data-card="4">
             <h3 class="card-script-title" data-i18n="familiesTitle">Our Families</h3>
             <p class="card-subtitle" data-i18n="familiesSubtitle">With the blessings of our parents</p>
@@ -435,11 +425,18 @@
               </svg>
             </div>
           </section>
+          ================= END OF CARDS 1-5 ================= -->
 
-          <!-- ================= CARD 6: RSVP (COMMENTED OUT) =================
-          <section class="invitation-card next card-rsvp" data-card="5">
+          <!-- ================= CARD 6: RSVP ================= -->
+          <section class="invitation-card active card-centered card-rsvp" data-card="0">
             <h3 class="card-script-title" data-i18n="rsvpTitle">RSVP</h3>
             <p class="card-subtitle" data-i18n="rsvpSubtitle">Please let us know if you can make it</p>
+
+            <div class="gold-divider" style="margin: 6px 0 10px;">
+              <span class="divider-line"></span>
+              <span class="divider-heart">♥</span>
+              <span class="divider-line"></span>
+            </div>
 
             <form class="rsvp-form-container" id="wedding-rsvp-form">
               <div>
@@ -492,16 +489,10 @@
               <strong style="display:block; margin-bottom: 2px;">Thank you! ✨</strong>
               <span>Your RSVP has been received with warm gratitude. We look forward to celebrating with you!</span>
             </div>
-
-            <div class="scroll-prompt-btn scroll-next-btn" style="margin-top: 14px;">
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                <path d="M1 1L6 6L11 1" stroke="#4a352c" stroke-width="1.5"></path>
-              </svg>
-            </div>
           </section>
-          ================= END OF CARD 6: RSVP ================= -->
+          <!-- ================= END OF CARD 6: RSVP ================= -->
 
-          <!-- ================= CARD 7: THANK YOU ================= -->
+          <!-- ================= CARD 7: THANK YOU (COMMENTED OUT) =================
           <section class="invitation-card next card-centered card-thankyou" data-card="6">
             <h3 class="card-script-title" data-i18n="thankYouTitle">Thank You</h3>
             <p class="card-subtitle" data-i18n="thankYouSubtitle">For your love and support</p>
@@ -527,6 +518,7 @@
               <span style="font-size: 10px;">Back to Top</span>
             </div>
           </section>
+          ================= END OF CARD 7 ================= -->
 
         </div>
       </div>
@@ -560,12 +552,13 @@
 
   </div><!-- End of #card-viewport -->
 
-  <!-- Right Side Pagination Dots Indicator -->
+  <!-- Right Side Pagination Dots Indicator (COMMENTED OUT)
   <div class="side-pagination" id="side-pagination"></div>
+  -->
 
 </div><!-- End of .app-container -->
 
-  <script src="video-intro.js"></script>
+  <!-- <script src="video-intro.js"></script> -->
   <script src="script.js"></script>
 </body>
 </html>

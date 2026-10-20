@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let isIntroOpened = false;
 
   // Set up audio source
-  bgAudio.volume = 0.7;
+  if (bgAudio) {
+    bgAudio.volume = 0.7;
+  }
 
   // =========================================================
   // 1. CELEBRATORY CONFETTI & GOLDEN DUST BURST
@@ -99,13 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 180);
 
     // Play wedding background shehnai audio
-    bgAudio.play().then(() => {
-      isAudioPlaying = true;
-      audioBtn.classList.add('playing');
-      updateAudioIcon(true);
-    }).catch(err => {
-      console.log('Audio autoplay info or user interaction:', err);
-    });
+    if (bgAudio) {
+      bgAudio.play().then(() => {
+        isAudioPlaying = true;
+        if (audioBtn) {
+          audioBtn.classList.add('playing');
+          updateAudioIcon(true);
+        }
+      }).catch(err => {
+        console.log('Audio autoplay info or user interaction:', err);
+      });
+    }
   }
 
   // Listen for custom event from peacock-intro.js
@@ -115,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. AUDIO PLAY / MUTE TOGGLE
   function updateAudioIcon(playing) {
+    if (!audioBtn) return;
     if (playing) {
       audioBtn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -134,20 +141,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  audioBtn.addEventListener('click', () => {
-    if (isAudioPlaying) {
-      bgAudio.pause();
-      isAudioPlaying = false;
-      audioBtn.classList.remove('playing');
-      updateAudioIcon(false);
-    } else {
-      bgAudio.play().then(() => {
-        isAudioPlaying = true;
-        audioBtn.classList.add('playing');
-        updateAudioIcon(true);
-      });
-    }
-  });
+  if (audioBtn && bgAudio) {
+    audioBtn.addEventListener('click', () => {
+      if (isAudioPlaying) {
+        bgAudio.pause();
+        isAudioPlaying = false;
+        audioBtn.classList.remove('playing');
+        updateAudioIcon(false);
+      } else {
+        bgAudio.play().then(() => {
+          isAudioPlaying = true;
+          audioBtn.classList.add('playing');
+          updateAudioIcon(true);
+        });
+      }
+    });
+  }
 
   // 3. LANGUAGE SWITCHER
   if (langTrigger && langDropdown) {
@@ -890,11 +899,11 @@ document.addEventListener('DOMContentLoaded', () => {
       rsvpForm.style.display = 'none';
       if (rsvpSuccess) rsvpSuccess.style.display = 'block';
 
-      // Redirect directly to WhatsApp with pre-filled details (Commented)
-      // const waUrl = `https://wa.me/916289848189?text=${encodeURIComponent(text)}`;
-      // setTimeout(() => {
-      //   window.open(waUrl, '_blank');
-      // }, 600);
+      // Redirect directly to WhatsApp with pre-filled details
+      const waUrl = `https://wa.me/916289848189?text=${encodeURIComponent(text)}`;
+      setTimeout(() => {
+        window.open(waUrl, '_blank');
+      }, 600);
     });
   }
 
